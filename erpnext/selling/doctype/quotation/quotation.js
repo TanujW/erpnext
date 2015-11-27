@@ -20,6 +20,8 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 		if(doc.docstatus == 1 && doc.status!=='Lost') {
 			cur_frm.add_custom_button(__('Make Sales Order'),
 				cur_frm.cscript['Make Sales Order'], frappe.boot.doctype_icons["Sales Order"]);
+			cur_frm.add_custom_button(__("Create Customer"), cur_frm.cscript['Create Customer'],
+				frappe.boot.doctype_icons["Customer"], "btn-default");
 			if(doc.status!=="Ordered") {
 				cur_frm.add_custom_button(__('Set as Lost'),
 					cur_frm.cscript['Declare Order Lost'], "icon-exclamation", "btn-default");
@@ -43,11 +45,7 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 					})
 				}, "icon-download", "btn-default");
 		}
-		if (this.frm.doc.docstatus===1){
-			this.frm.add_custom_button(__("Create Customer"), this.create_customer,
-				frappe.boot.doctype_icons["Customer"], "btn-default");
-
-		}
+		
 		this.toggle_reqd_lead_customer();
 	},
 
@@ -61,13 +59,6 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 		}
 
 		this.toggle_reqd_lead_customer();
-	},
-
-	create_customer: function() {
-		frappe.model.open_mapped_doc({
-			method: "erpnext.crm.doctype.quotation.quotation.make_customer",
-			frm: cur_frm
-		})
 	},
 
 	toggle_reqd_lead_customer: function() {
@@ -129,6 +120,15 @@ cur_frm.cscript['Make Sales Order'] = function() {
 		method: "erpnext.selling.doctype.quotation.quotation.make_sales_order",
 		frm: cur_frm
 	})
+}
+
+cur_frm.cscript['Create Customer'] = function() {
+	frappe.model.open_mapped_doc({
+		method: "erpnext.selling.doctype.quotation.quotation.make_customer",
+		frm: cur_frm
+	})
+	
+	
 }
 
 cur_frm.cscript['Declare Order Lost'] = function(){
