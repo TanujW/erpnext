@@ -20,6 +20,8 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 		if(doc.docstatus == 1 && doc.status!=='Lost') {
 			cur_frm.add_custom_button(__('Make Sales Order'),
 				cur_frm.cscript['Make Sales Order'], frappe.boot.doctype_icons["Sales Order"]);
+			cur_frm.add_custom_button(__("Create Customer"), cur_frm.cscript['Create Customer'],
+				frappe.boot.doctype_icons["Customer"], "btn-default");
 			if(doc.status!=="Ordered") {
 				cur_frm.add_custom_button(__('Set as Lost'),
 					cur_frm.cscript['Declare Order Lost'], "icon-exclamation", "btn-default");
@@ -43,7 +45,7 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 					})
 				}, "icon-download", "btn-default");
 		}
-
+		
 		this.toggle_reqd_lead_customer();
 	},
 
@@ -118,6 +120,15 @@ cur_frm.cscript['Make Sales Order'] = function() {
 		method: "erpnext.selling.doctype.quotation.quotation.make_sales_order",
 		frm: cur_frm
 	})
+}
+
+cur_frm.cscript['Create Customer'] = function() {
+	frappe.model.open_mapped_doc({
+		method: "erpnext.selling.doctype.quotation.quotation.make_customer",
+		frm: cur_frm
+	})
+	
+	
 }
 
 cur_frm.cscript['Declare Order Lost'] = function(){
