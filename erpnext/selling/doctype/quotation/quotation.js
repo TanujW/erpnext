@@ -43,7 +43,11 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 					})
 				}, "icon-download", "btn-default");
 		}
+		if (this.frm.doc.docstatus===1){
+			this.frm.add_custom_button(__("Create Customer"), this.create_customer,
+				frappe.boot.doctype_icons["Customer"], "btn-default");
 
+		}
 		this.toggle_reqd_lead_customer();
 	},
 
@@ -57,6 +61,13 @@ erpnext.selling.QuotationController = erpnext.selling.SellingController.extend({
 		}
 
 		this.toggle_reqd_lead_customer();
+	},
+
+	create_customer: function() {
+		frappe.model.open_mapped_doc({
+			method: "erpnext.crm.doctype.quotation.quotation.make_customer",
+			frm: cur_frm
+		})
 	},
 
 	toggle_reqd_lead_customer: function() {
